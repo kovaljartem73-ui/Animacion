@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Анімація Потяга</title>
+<style>
+  body {
+    background: #e0f7fa;
+    overflow: hidden;
+  }
+  #train {
+    position: absolute;
+    top: 100px;
+    display: flex;
+    align-items: flex-end;
+  }
+  .wagon, .engine {
+    width: 100px;
+    height: 60px;
+    margin-right: 10px;
+    position: relative;
+    border-radius: 10px;
+  }
+  .engine::before {
+    content: '';
+    width: 20px;
+    height: 40px;
+    background: gray;
+    position: absolute;
+    top: -20px;
+    left: 10px;
+    border-radius: 5px;
+  }
+  .wheel {
+    width: 20px;
+    height: 20px;
+    background: black;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -10px;
+  }
+  .wheel.left { left: 10px; }
+  .wheel.right { right: 10px; }
+</style>
+</head>
+<body>
+
+<div id="train">
+  <div class="engine" style="background: blue;">
+    <div class="wheel left"></div>
+    <div class="wheel right"></div>
+  </div>
+</div>
+
+<script>
+const train = document.getElementById('train');
+const wagonColors = ['red', 'green', 'orange', 'purple', 'yellow'];
+
+// Додаємо випадкову кількість вагонів
+const wagonCount = Math.floor(Math.random() * 4) + 2;
+for(let i = 0; i < wagonCount; i++){
+  const wagon = document.createElement('div');
+  wagon.className = 'wagon';
+  wagon.style.background = wagonColors[Math.floor(Math.random() * wagonColors.length)];
+  
+  const wheelLeft = document.createElement('div');
+  wheelLeft.className = 'wheel left';
+  wagon.appendChild(wheelLeft);
+  
+  const wheelRight = document.createElement('div');
+  wheelRight.className = 'wheel right';
+  wagon.appendChild(wheelRight);
+  
+  train.appendChild(wagon);
+}
+
+// Анімація руху потяга
+let pos = -200;
+function animate(){
+  pos += 2;
+  if(pos > window.innerWidth) pos = -train.offsetWidth;
+  train.style.left = pos + 'px';
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
